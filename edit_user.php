@@ -1,3 +1,22 @@
+<?php
+    include("php/MySql.php");
+    $sql = MySql::Connect();
+
+    $id = $_GET['id'];
+
+    $buscaUsuario = $sql->prepare("SELECT * FROM users WHERE id = ?");
+    $buscaUsuario->execute(array($id));
+    $buscaUsuario = $buscaUsuario->fetch();
+
+    if(isset($_POST['acao'])) {
+        $idQuero = $_POST['id'];
+        $email = $_POST['email'];
+        $senha = $_POST['senha'];
+        $editUser = $sql->prepare("UPDATE users SET usuario = ?, senha = ? WHERE id = ?");
+        $editUser->execute(array($email, $senha, $idQuero));
+        header("Location: tables.php");
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,16 +59,17 @@
                                 <div class="p-5">
                                     <div class="container mt-4">
                                         <h2><strong style="color: black;">Editar Usuário</strong></h2>
-                                        <form action="edit_user.php" method="POST">
+                                        <form action="edit_user.php" method="post">
+                                            <input type="hidden" name="id" value="<?php echo $id ?>">
                                           <div class="form-group">
                                             <label for="email">Novo Email:</label>
-                                            <input type="email" class="form-control" id="email" name="email" required placeholder="user@email.com">
+                                            <input type="email" class="form-control" id="email" name="email" required placeholder="user@email.com" value="<?php echo $buscaUsuario['usuario'] ?>">
                                           </div>
                                           <div class="form-group">
                                             <label for="senha">Nova Senha:</label>
-                                            <input type="password" class="form-control" id="senha" name="senha" required placeholder="senha">
+                                            <input type="password" class="form-control" id="senha" name="senha" required placeholder="senha" value="<?php echo $buscaUsuario['senha'] ?>">
                                           </div>
-                                          <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                                          <input type="submit" value="Salvar Alterções" class="btn btn-primary" name="acao">
                                         </form>
                                       </div>
                                 </div>

@@ -407,7 +407,7 @@
                                         <tr>
                                             <td><?php echo $value['usuario'] ?></td>
                                             <td><?php echo $value['senha'] ?></td>
-                                            <td><a href="" class="btn btn-primary">Editar</a></td>
+                                            <td><a href="edit_user.php?id=<?php echo $value['id'] ?>" class="btn btn-primary">Editar</a></td>
                                             <td><a href="?id=<?php echo $value['id'] ?>&remover" class="btn btn-danger">Remover</a></td>
                                         </tr>
                                         <?php } ?>
